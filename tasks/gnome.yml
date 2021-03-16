@@ -1,0 +1,14 @@
+- name: Install python-psutil package
+  apt: name=python3-psutil
+
+- name: Copy wallpaper
+  copy: src=files/wallpaper.jpg dest=/home/tacsiazuma/.wallpaper.jpg owner=tacsiazuma group=tacsiazuma mode=600
+
+- name: Set GNOME Wallpaper
+  become_user: tacsiazuma
+  dconf: key="/org/gnome/desktop/background/picture-uri" value="'file:///home/tacsiazuma/.wallpaper.jpg'"
+- name: Install arc theme
+  apt: name=arc-theme
+- name: Set GTK theme
+  become_user: tacsiazuma
+  dconf: key="/org/gnome/desktop/interface/gtk-theme" value="'Arc'"

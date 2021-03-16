@@ -1,0 +1,23 @@
+  - name: update repositories
+    apt: update_cache=yes
+    changed_when: False
+  - name: Install tmux
+    apt: name=tmux
+  - name: Install neovim
+    get_url:
+        url: https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+        dest: /usr/local/bin/nvim
+        mode: '0755'
+  - name: Install vundle
+    git:
+        repo: https://github.com/VundleVim/Vundle.vim.git
+        dest: ~/.vim/bundle/Vundle.vim
+    become_user: tacsiazuma
+  - name: Setup vimrc
+    get_url:
+        url: https://raw.githubusercontent.com/Tacsiazuma/vimrc/master/vimrc
+        dest: /home/tacsiazuma/.vimrc
+    become_user: tacsiazuma
+  - name: Install neovim plugins
+    command: nvim +PluginInstall +qall
+    become_user: tacsiazuma
